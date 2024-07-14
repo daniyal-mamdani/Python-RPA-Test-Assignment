@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 from bs4 import BeautifulSoup
+from robocorp import workitems
 from robocorp.tasks import task
 from RPA.Browser.Selenium import Selenium
 from RPA.HTTP import HTTP
@@ -142,10 +143,15 @@ class NewsScraper:
 
     def run_scraper(self):
         try:
-            config = self.load_config("config/config.json")
-            search_phrase = config["search_phrase"]
-            category = config["category"]
-            months = config["months"]
+            item = workitems.inputs.current
+            paylod = item.payload
+            search_phrase = paylod["search_phrase"]
+            category = paylod.get("category", "")
+            months = int(paylod.get("months", 0))
+            # config = self.load_config("config/config.json")
+            # search_phrase = config["search_phrase"]
+            # category = config["category"]
+            # months = config["months"]
 
             if months == 0:
                 end_date = datetime.now() - timedelta(days=30)
