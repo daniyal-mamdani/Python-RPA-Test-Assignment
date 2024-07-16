@@ -82,12 +82,9 @@ class NewsScraper:
             logger.info(f"extracting news articles from page # {current_page}")
 
             news_item_locator = "data:content-type:article"
-            self.browser.wait_until_element_is_enabled(news_item_locator, timeout=15)
+            self.browser.wait_until_element_is_visible(news_item_locator, timeout=15)
             news_items = self.browser.find_elements(news_item_locator)
-            for item_idx, news_item in enumerate(news_items):
-                # to handle stale element error
-                news_item = self.browser.find_elements(news_item_locator)[item_idx]
-
+            for news_item in news_items:
                 news_timestamp = self.browser.find_element(
                     "css:p.promo-timestamp", news_item
                 ).get_attribute("data-timestamp")
