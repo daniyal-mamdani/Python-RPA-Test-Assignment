@@ -81,23 +81,23 @@ class NewsScraper:
         while current_page <= max_pages:
             logger.info(f"extracting news articles from page # {current_page}")
 
-            news_item_locator = "data:content-type:article"
+            news_item_locator = "//ps-promo[@data-content-type='article']"
             self.browser.wait_until_element_is_visible(news_item_locator, timeout=15)
             news_items = self.browser.find_elements(news_item_locator)
-            for news_item in news_items:
+            for item_idx, news_item in enumerate(news_items, start=1):
                 news_timestamp = self.browser.find_element(
-                    "css:p.promo-timestamp", news_item
+                    f"(//p[@class='promo-timestamp'])[{item_idx}]"
                 ).get_attribute("data-timestamp")
                 news_date = convert_timestamp_to_datetime(news_timestamp)
                 if news_date < end_date:
                     continue
 
                 news_title = self.browser.find_element(
-                    "css:h3.promo-title", news_item
+                    f"(//h3[@class='promo-title'])[{item_idx}]"
                 ).text.strip()
 
                 news_description = self.browser.find_element(
-                    "css:p.promo-description", news_item
+                    f"(//p[@class='promo-description'])[{item_idx}]"
                 ).text.strip()
 
                 news_text = news_title + " " + news_description
@@ -109,7 +109,9 @@ class NewsScraper:
                     )
                 )
 
-                news_image = self.browser.find_element("css:img.image", news_item)
+                news_image = self.browser.find_element(
+                    f"(//img[@class='image'])[{item_idx}]"
+                )
                 news_image_url = news_image.get_attribute("src")
                 file_name = news_image_url.split("%2F")[-1]
 
