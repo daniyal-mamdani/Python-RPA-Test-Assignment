@@ -154,9 +154,10 @@ class NewsScraper:
             search_phrase = payload["search_phrase"]
             category = payload.get("category", "")
             months = int(payload.get("months", 0))
-            max_pages = int(payload.get("max_pages", None))
+            max_pages = payload.get("max_pages", None)
             logger.info("successfully read process parameters from work item")
             if max_pages:
+                max_pages = int(max_pages)
                 logger.info(f"max_pages set to {max_pages}")
             else:
                 max_pages = 5
