@@ -1,5 +1,6 @@
 import logging
 import re
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -83,6 +84,7 @@ class NewsScraper:
 
             news_item_locator = "//ps-promo[@data-content-type='article']"
             self.browser.wait_until_element_is_visible(news_item_locator, timeout=15)
+            time.sleep(10)
             news_items = self.browser.find_elements(news_item_locator)
             for item_idx, news_item in enumerate(news_items, start=1):
                 news_timestamp = self.browser.find_element(
