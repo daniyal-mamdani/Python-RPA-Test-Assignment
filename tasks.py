@@ -82,7 +82,7 @@ class NewsScraper:
             logger.info(f"extracting news articles from page # {current_page}")
 
             news_item_locator = "data:content-type:article"
-            self.browser.wait_until_page_contains_element(news_item_locator, timeout=15)
+            self.browser.wait_until_element_is_enabled(news_item_locator, timeout=15)
             news_items = self.browser.find_elements(news_item_locator)
             for item_idx, news_item in enumerate(news_items):
                 # to handle stale element error
