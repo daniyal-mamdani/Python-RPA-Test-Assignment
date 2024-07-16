@@ -1,5 +1,6 @@
 {
-    "search_phrase": "Joe Biden",
+    "search_phrase": "Trump",
     "category": "Politics",
-    "months": 0
+    "months": 1,
+    "max_pages": 2
 }
